@@ -12,72 +12,53 @@ function getResult(a, b, c) {
   let elem2 = (-b - rootOfDiscriminant) / (2 * a);
   let arr = [];
 
-  if (discriminant < 0) {
-    return arr;
-  } else if (discriminant === 0) {
-    arr[0] = elem1 || elem2;
-    return arr;
+  if (discriminant === 0) {
+    arr[0] = elem1;
   } else if (discriminant > 0) {
     arr[0] = elem1;
     arr[1] = elem2;
-    return arr;
   }
+
+  return arr;
 }
 
 function getAverageMark(marks) {
   // код для задачи №2 писать здесь
   // return averageMark;
 
-  let arithmeticMean = marks;
-  let arithmeticMeanLength = arithmeticMean.length;
+  let marksArray = marks;
+
+  let arithmeticMeanLength = marks.length;
   let sum = 0;
-  let count = arithmeticMeanLength;
-
-  function sumArr() {
-    for (let i = 0; i < arithmeticMeanLength; i++) {
-      sum += arithmeticMean[i];
-    }
-
-    return sum / count;
-  }
-
-  let sumResult = sumArr();
-
-  console.log(arithmeticMeanLength);
-  console.log(marks);
 
   if (arithmeticMeanLength === 0) {
     return 0;
-  } else if (arithmeticMeanLength > 5) {
-    arithmeticMean.splice(5); // не понимаю, почему не работает splice
-    sumArr();
-    return sumResult;
-  } else if (arithmeticMeanLength <= 5) {
-    sumArr();
-    return sumResult;
   }
+
+  marksArray.splice(5);
+
+  console.log(
+    `Введено много оценок, их количество будет обрезано до ${marksArray.length}`
+  );
+
+  for (let i = 0; i < marksArray.length; i++) {
+    sum += marksArray[i];
+  }
+
+  let average = sum / marksArray.length;
+
+  return average;
 }
 
 function askDrink(name, dateOfBirthday) {
   // код для задачи №3 писать здесь
   // return result;
 
-  let date = new Date();
-  let age = date.getFullYear() - dateOfBirthday.getFullYear();
-  console.log(age);
+  let age = new Date().getFullYear() - dateOfBirthday.getFullYear();
 
   if (age >= 18) {
-    console.log(`Не желаете ли олд-фэшн, ${name}?`);
+    return `Не желаете ли олд-фэшн, ${name}?`;
   } else if (age < 18) {
-    console.log(
-      `Сожалею, ${name}, но я не могу вам продать алкоголь. Могу предложить вам замечательный клюквенный компот!`
-    );
+    return `Сожалею, ${name}, но я не могу вам продать алкоголь. Могу предложить вам замечательный клюквенный компот!`;
   }
-
-  return;
-
-  /*
-    на странице test-runner показывает ошибку в 3 задании,
-    но оно работает верно, в чем проблема?
-  */
 }
