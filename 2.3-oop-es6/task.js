@@ -112,7 +112,7 @@ class Library {
     }
 
     addBook(book) {
-        if (printEditionItem.state > 30) {
+        if (book.state > 30) {
             this.books.splice(0, 0, book);
         }
     }
@@ -138,7 +138,7 @@ class Library {
                 let deleteBook = this.books.splice(i, 1);
                 console.log(deleteBook);
 
-                return deleteBook;
+                return deleteBook.find((item) => item);
             }
         }
 
@@ -181,12 +181,12 @@ library.addBook(new Magazine('Мурзилка', 1924, 60));
 // console.log(library.findBookBy('releaseDate', 1924).name); //"Мурзилка"
 // console.log(library.findBookBy('author', 'Лермонтов'));
 
-// console.log('Количество книг до выдачи: ' + library.books.length); //Количество книг до выдачи: 4
+console.log('Количество книг до выдачи: ' + library.books.length); //Количество книг до выдачи: 4
 
-// library.giveBookByName('Машина');
+library.giveBookByName('Машина');
 
-// console.log(library.giveBookByName());
-// console.log('Количество книг после выдачи: ' + library.books.length); //Количество книг после выдачи: 3
+console.log(library.giveBookByName());
+console.log('Количество книг после выдачи: ' + library.books.length); //Количество книг после выдачи: 3
 
 // Задача 3
 
@@ -221,7 +221,7 @@ class StudentLog {
     }
 
     getAverageBySubject(subject) {
-        console.log(this.schoolMarks[subject]);
+        // console.log(this.schoolMarks[subject]);
         for (let key in this.schoolMarks) {
             if (key === subject) {
                 let sum = 0;
@@ -236,38 +236,62 @@ class StudentLog {
         return 0;
     }
 
+    // getTotalAverage() {
+    //     let averageSchoolMarks;
+    //     for (let key in this.schoolMarks) {
+    //         console.log(this.schoolMarks[key]);
+    //         let sum = 0;
+    //         for (let i = 0; i < this.schoolMarks[key].length; i++) {
+    //             sum += this.schoolMarks[key][i];
+    //         }
+
+    //         console.log(sum);
+
+    //         let averageSum = sum / this.schoolMarks[key].length;
+
+    //         this.schoolMarks[key] = Math.ceil(averageSum);
+
+    //         console.log(this.schoolMarks);
+
+    //         let marksKeysSum = Object.values(this.schoolMarks);
+    //         console.log(marksKeysSum);
+
+    //         let keysSum = 0;
+    //         for (let j = 0; j < marksKeysSum.length; j++) {
+    //             keysSum += marksKeysSum[j];
+    //             console.log(keysSum);
+    //         }
+
+    //         console.log(keysSum / marksKeysSum.length);
+
+    //         averageSchoolMarks = keysSum / marksKeysSum.length;
+    //     }
+
+    //     return averageSchoolMarks || 0;
+    // }
+
     getTotalAverage() {
-        let averageSchoolMarks;
+        const averageMarks = [];
+
+        console.log(averageMarks);
+
         for (let key in this.schoolMarks) {
-            console.log(this.schoolMarks[key]);
-            let sum = 0;
+            const value = key;
+
+            let sumKey = 0;
             for (let i = 0; i < this.schoolMarks[key].length; i++) {
-                sum += this.schoolMarks[key][i];
+                sumKey += log.getAverageBySubject(value);
             }
 
-            console.log(sum);
-
-            let averageSum = sum / this.schoolMarks[key].length;
-
-            this.schoolMarks[key] = Math.ceil(averageSum);
-
-            console.log(this.schoolMarks);
-
-            let marksKeysSum = Object.values(this.schoolMarks);
-            console.log(marksKeysSum);
-
-            let keysSum = 0;
-            for (let j = 0; j < marksKeysSum.length; j++) {
-                keysSum += marksKeysSum[j];
-                console.log(keysSum);
-            }
-
-            console.log(keysSum / marksKeysSum.length);
-
-            averageSchoolMarks = keysSum / marksKeysSum.length;
+            averageMarks.push(sumKey / this.schoolMarks[key].length);
         }
 
-        return averageSchoolMarks || 0;
+        let averageSum = 0;
+        for (let i = 0; i < averageMarks.length; i++) {
+            averageSum += averageMarks[i];
+        }
+
+        return averageSum / averageMarks.length || 0;
     }
 }
 
