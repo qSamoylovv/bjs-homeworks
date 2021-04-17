@@ -22,31 +22,20 @@ console.log(weapons);
 
 console.log(getNames());
 
-const durabilityArr = weapons.map((durabil) => durabil.durability);
-
-let getCountReliableWeapons = (durability) => {
-    console.log(durabilityArr);
-
-    const weaponsDurability = durabilityArr.filter((item) => item > durability);
-
-    return weaponsDurability.length;
-};
+let getCountReliableWeapons = (durability) =>
+    weapons
+        .map((durabil) => durabil.durability)
+        .filter((item) => item > durability).length;
 
 console.log(getCountReliableWeapons(500));
 
-let hasReliableWeapons = (durability) => {
-    console.log(durabilityArr);
+let hasReliableWeapons = (durability) =>
+    weapons
+        .map((durabil) => durabil.durability)
+        .some((item) => item > durability);
 
-    const weaponsAreDurabilityThanDurability = durabilityArr.some(
-        (item) => item > durability
-    );
-    return weaponsAreDurabilityThanDurability;
-};
-
-let getReliableWeaponsNames = (durability) => {
-    console.log(durabilityArr);
-
-    const weaponsName = weapons
+let getReliableWeaponsNames = (durability) =>
+    weapons
         .map((item) => {
             if (item.durability > durability) {
                 return item.name;
@@ -54,19 +43,10 @@ let getReliableWeaponsNames = (durability) => {
         })
         .filter((item) => item !== undefined);
 
-    return weaponsName;
-};
-
 console.log(getReliableWeaponsNames(500));
 
-let getTotalDamage = () => {
-    const weaponsTotalDamage = weapons.reduce(
-        (total, item) => total + item.attack,
-        0
-    );
-
-    return weaponsTotalDamage;
-};
+let getTotalDamage = () =>
+    weapons.reduce((total, item) => total + item.attack, 0);
 
 console.log(getTotalDamage());
 
@@ -79,52 +59,154 @@ function sleep(milliseconds) {
 
 function sum(...args) {
     // Замедление на половину секунды.
-    sleep(100); // Можно использовать другое значение замедления.
-    return {
-        args: args,
-        result: args.reduce((sum, arg) => {
-            return (sum += +arg);
-        }, 0),
-    };
+    sleep(10); // Можно использовать другое значение замедления.
+    return args.reduce((sum, arg) => {
+        return (sum += +arg);
+    }, 0);
 }
 
-let compareArrays = (arr1, arr2) => {
-    const itemsArrs = (arr) => {
-        for (let i = 0; i < arr.length; i++) {
-            // console.log(arr[i]);
-            return arr[i];
-        }
-    };
+// let compareArrays = (arr1, arr2) => {
+//     const itemsArrs = (arr) => {
+//         for (let i = 0; i < arr.length; i++) {
+//             console.log(arr[i]);
+//             return arr[i];
+//         }
+//     };
 
-    if (arr1.length !== arr2.length) {
-        return false;
-    }
+//     if (arr1.length !== arr2.length) {
+//         return false;
+//     }
 
-    if (itemsArrs(arr1) !== itemsArrs(arr2)) {
-        return false;
-    }
+//     if (itemsArrs(arr1) !== itemsArrs(arr2)) {
+//         return false;
+//     }
 
-    return true;
-};
+//     return true;
+// };
 
-console.log(compareArrays([8, 1, 2], [8, 1, 2]));
+let compareArrays = (arr1, arr2) =>
+    arr1.length === arr2.length &&
+    arr1.every((elem1) => elem1) === arr2.every((elem2) => elem2);
 
-function memorize(fn, limit) {
+// console.log(compareArrays([8, 1, 2], [8, 1, 2]));
+
+const memorize = (fn, limit) => {
     const memory = [];
-    if (memory.length > limit) {
-        memory.splice(limit);
-    }
-
     console.log(memory);
+    const callbackFunc = (...args) => {
+        // console.log({ args: args, result: fn(...args) });
+        // memory.find((item) => {
+        //     if (compareArrays(item.args, args)) {
+        //         return memory.forEach((item) => item.result);
+        //     }
+        // });
+        // const fnObj = { args: args, result: fn(...args) };
 
-    return fn;
-}
+        // memory.find((item) => console.log(compareArrays(item.args, args)));
+        // console.log(args);
+        // memory.forEach((item) => console.log(item.result));
+        // memory.find((item) => {
+        //     if (compareArrays(item.args, args) === false) {
+        //         findResult = false;
+        //     } else {
+        //         findResult = true;
+        //     }
+        // });
+        memory.push({ args: args, result: fn(...args) });
+
+        if (memory.find((item) => compareArrays(item.args, args) === true)) {
+            if (memory.length > limit) {
+                memory.splice(limit);
+            }
+        }
+
+        return fn(...args);
+
+        // memory.find((item) => {
+        //     if (compareArrays(item.args, args)) {
+        //         return item.result;
+        //     }
+        // });
+
+        // if (memory.find((item) => compareArrays(item.args, args))) {
+        //     memory.push({ args: args, result: fn(...args) });
+        //     if (memory.length > limit) {
+        //         memory.splice(limit);
+        //     }
+        //     return memory.forEach((item) => item.result);
+        // }
+
+        // return memory.forEach((item) => console.log(item.result));
+
+        // if (compareArrays(item.args, args)) {
+        //     return item.result;
+        // } else {
+        //     memory.push(fn(...args));
+        //     if (memory.length > limit) {
+        //         memory.splice(limit);
+        //     }
+        //     return item.result;
+        // }
+
+        // if (memory.find((item) => item.args)) {
+        //     return memory.forEach((item) => item.result);
+        // } else {
+        //     memory.push(fn(...args));
+        // if (memory.length > limit) {
+        //     memory.splice(limit);
+        // }
+        //     return memory.forEach((item) => item.result);
+        // }
+        // ПРОДОЛЖАТЬ ЗДЕСЬ
+        // if (memoryItem) {
+        //     return memory.forEach((item) => console.log(item));
+        // } else {
+        //     memory.push({ args: args, result: fn(...args) });
+        //     if (memory.length > limit) {
+        //         memory.splice(limit);
+        //     }
+        //     console.log(memory);
+        //     return fn(...args);
+        // }
+    };
+
+    return callbackFunc;
+};
 
 const mSum = memorize(sum, 5); // 5 результатов может хранится в памяти
 
-console.log(mSum);
+// console.log(mSum);
 
-// console.log(sum(3, 4)); // 7
-
-console.log(mSum(3, 4, 4)); // 11
+console.log(mSum(2, 2)); // 4
+console.log(mSum(5, 1)); // 6
+console.log(mSum(5, 1)); // 6
+console.log(mSum(5, 1)); // 6
+console.log(mSum(5, 1)); // 6
 console.log(mSum(1, 3)); // 4
+
+// const memorize = (fn) => {
+//     const memory = [
+//         {
+//             args: [3, 4],
+//             result: 7,
+//         },
+//         {
+//             args: [1, 3],
+//             result: 4,
+//         },
+//     ];
+//     const func = (...args) => {
+// console.log(fn(args));
+//         console.log(memory.find((item) => item.args === args));
+//     };
+//     return func;
+// };
+
+// console.log(memorize());
+
+// const resultFunction = memorize();
+// resultFunction(1, 2, 3, 4);
+
+// const resultFunction = memorize((a, b) => a + b);
+// resultFunction(3, 4); // <= должно вывести: 7
+// resultFunction(5, 6); // <= ничего не найдёт в памяти.
