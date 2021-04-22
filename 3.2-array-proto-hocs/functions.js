@@ -66,28 +66,29 @@ function sum(...args) {
 }
 
 let compareArrays = (arr1, arr2) =>
-    arr1.length === arr2.length &&
-    arr1.every((elem1) => elem1) === arr2.every((elem2) => elem2);
-
+    arr1.length === arr2.length && arr1.every((elem, i) => elem === arr2[i]);
 // console.log(compareArrays([8, 1, 2], [8, 1, 2]));
 
 const memorize = (fn, limit) => {
     const memory = [];
 
     const callbackFunc = (...args) => {
-        if (memory.find((item) => compareArrays(item.args, args) === true)) {
+        const findItem = memory.find((item) => {
+            if (compareArrays(item.args, args)) {
+                return item;
+            }
+        });
+
+        if (findItem != undefined) {
+            return findItem.result;
+        } else {
             if (memory.length > limit) {
                 memory.splice(limit);
             }
+            memory.push({ args: args, result: fn(...args) });
 
-            for (let i in memory) {
-                return memory[i].result;
-            }
+            return memory[memory.length - 1].result;
         }
-
-        memory.push({ args: args, result: fn(...args) });
-
-        return memory[memory.length - 1].result;
     };
 
     return callbackFunc;
@@ -95,9 +96,9 @@ const memorize = (fn, limit) => {
 
 const mSum = memorize(sum, 5); // 5 результатов может хранится в памяти
 
-console.log(mSum(2, 2)); // 4
+// console.log(mSum(2, 2)); // 4
 console.log(mSum(5, 1)); // 6
-console.log(mSum(5, 1)); // 6
-// console.log(mSum(4, 8)); // 12
-// console.log(mSum(7, 4)); // 11
-// console.log(mSum(1, 1)); // 2
+// console.log(mSum(5, 1)); // 6
+console.log(mSum(4, 8)); // 12
+console.log(mSum(7, 4)); // 11
+console.log(mSum(1, 1)); // 2
